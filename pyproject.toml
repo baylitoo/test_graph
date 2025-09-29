@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nutriscore-agent"
+version = "0.1.0"
+description = "LangGraph-based NutriScore calculator integrating Neo4j MCP servers and Azure OpenAI."
+readme = "README.md"
+authors = [{ name = "NutriScore Agent Team" }]
+requires-python = ">=3.11"
+dependencies = [
+    "langgraph>=0.0.55",
+    "langchain>=0.2.12",
+    "langchain-openai>=0.1.15",
+    "langchain-mcp-adapters>=0.0.7",
+    "neo4j>=5.20.0",
+    "python-dotenv>=1.0.1",
+    "typer>=0.12.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=24.4.2",
+    "mypy>=1.10.0",
+    "ruff>=0.5.0",
+    "pytest>=8.2.0",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+include = "src/.+\\.pyi?$"
+
+[tool.ruff]
+line-length = 88
+src = ["src", "tests"]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "TID", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+strict_optional = true
+ignore_missing_imports = true
+mypy_path = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
